@@ -10,4 +10,5 @@ export const sql = neon(databaseUrl);
 export const db = drizzle(sql, { schema });
 
 export * from './schema';
+export { eq, and, or, desc, asc, inArray } from 'drizzle-orm';
 export type { InferSelectModel, InferInsertModel } from 'drizzle-orm';

@@ -1,7 +1,9 @@
 import { z } from 'zod';
+import { authRouter } from './routers/auth';
 import { publicProcedure, router } from './trpc';
 
 export const appRouter = router({
+  auth: authRouter,
   healthCheck: publicProcedure.query(() => {
     return {
       status: 'ok',
