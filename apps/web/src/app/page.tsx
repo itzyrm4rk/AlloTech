@@ -91,13 +91,18 @@ export default function AdminHomePage() {
             </div>
 
             <div className="flex items-center gap-3 border-l border-[#E4E4E7] pl-4">
-              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#1B3A5C] text-xs font-semibold text-white">
-                AD
-              </div>
-              <div className="text-left text-xs">
-                <p className="font-semibold text-[#1B3A5C]">Administrateur</p>
-                <p className="text-[#2C2C2E]/60">admin@allotech.cm</p>
-              </div>
+              <a
+                href="/connexion"
+                className="text-xs font-semibold text-[#1B3A5C] hover:text-[#E07A3C] transition"
+              >
+                Connexion
+              </a>
+              <a
+                href="/inscription"
+                className="rounded-lg bg-[#1B3A5C] px-3 py-1.5 text-xs font-semibold text-white hover:bg-[#152e4a] transition shadow-sm"
+              >
+                Inscription
+              </a>
             </div>
           </div>
         </div>
