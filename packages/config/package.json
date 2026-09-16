@@ -1,0 +1,13 @@
+{
+  "name": "@allotech/config",
+  "version": "0.1.0",
+  "private": true,
+  "exports": {
+    ".": "./src/index.ts",
+    "./colors": "./src/colors.ts",
+    "./tailwind": "./src/tailwind.ts"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3"
+  }
+}
