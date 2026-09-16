@@ -16,7 +16,8 @@
       "**/dist/**",
       "**/build/**",
       "**/next-env.d.ts",
-      "**/.vscode/**"
+      "**/.vscode/**",
+      "**/drizzle/**"
     ]
   },
   "formatter": {
