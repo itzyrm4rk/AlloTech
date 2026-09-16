@@ -27,7 +27,7 @@ jobs:
           cache: 'pnpm'
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile=false
+        run: pnpm install --trust-lockfile
 
       - name: Run Biome Lint & Format Check
         run: pnpm run check:ci
