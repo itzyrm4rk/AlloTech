@@ -14,7 +14,9 @@
       "**/.expo/**",
       "**/.turbo/**",
       "**/dist/**",
-      "**/build/**"
+      "**/build/**",
+      "**/next-env.d.ts",
+      "**/.vscode/**"
     ]
   },
   "formatter": {
