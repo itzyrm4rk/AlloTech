@@ -2,6 +2,7 @@
   "name": "@allotech/ui",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "exports": {
     ".": "./src/index.ts",
     "./status": "./src/status.ts"
