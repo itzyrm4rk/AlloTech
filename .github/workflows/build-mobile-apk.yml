@@ -55,7 +55,7 @@ jobs:
 
       - name: 7. Generate Android Native Project (Expo Prebuild)
         working-directory: apps/mobile
-        run: npx expo prebuild --platform android --no-install
+        run: npx expo prebuild --platform android --no-install --clean
 
       - name: 8. Setup Build Permissions
         run: chmod +x apps/mobile/android/gradlew
