@@ -1,0 +1,36 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "nextjs",
+  "installCommand": "pnpm install",
+  "buildCommand": "pnpm --filter web build",
+  "outputDirectory": "apps/web/.next",
+  "regions": ["cdg1"],
+  "env": {
+    "NODE_ENV": "production"
+  },
+  "functions": {
+    "apps/web/src/app/api/**": {
+      "maxDuration": 30
+    },
+    "apps/web/src/app/api/statistiques/excel/**": {
+      "maxDuration": 60,
+      "memory": 512
+    },
+    "apps/web/src/app/api/statistiques/pdf/**": {
+      "maxDuration": 30
+    },
+    "apps/web/src/app/api/tickets/[id]/pdf/**": {
+      "maxDuration": 30
+    }
+  },
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "DENY" },
+        { "key": "X-XSS-Protection", "value": "1; mode=block" }
+      ]
+    }
+  ]
+}

@@ -12,7 +12,6 @@ import {
 
 // ==============================================================================
 // ENUMERATIONS MÉTIER
-// Source : antigravity-01-contexte-fonctionnalites.md
 // ==============================================================================
 
 export const typeClientEnum = pgEnum('type_client', ['ENTREPRISE', 'PARTICULIER']);
@@ -33,6 +32,7 @@ export const ticketStatutEnum = pgEnum('ticket_statut', [
 ]);
 
 export const categorieEquipementEnum = pgEnum('categorie_panne', ['MATERIEL', 'LOGICIEL']);
+export const typeActifEnum = pgEnum('type_actif', ['MATERIEL', 'LOGICIEL']);
 
 export const sousTypePanneMatEnum = pgEnum('sous_type_panne_materiel', [
   'RESEAU',
@@ -161,6 +161,18 @@ export const techniciens = pgTable('techniciens', {
 });
 
 // ==============================================================================
+// MATRICULES AUTORISÉS (pré-enregistrés par l'administrateur)
+// Un technicien ne peut s'inscrire sur mobile que si son matricule est pré-enregistré
+// ==============================================================================
+
+export const matriculesAutorises = pgTable('matricules_autorises', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  matricule: text('matricule').notNull().unique(),
+  isUtilise: boolean('is_utilise').notNull().default(false),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+});
+
+// ==============================================================================
 // COMPÉTENCES & LIAISON TECHNICIEN <-> COMPÉTENCES (N-N)
 // ==============================================================================
 
@@ -225,8 +237,11 @@ export const equipements = pgTable('equipements', {
   clientId: uuid('client_id')
     .notNull()
     .references(() => clients.id, { onDelete: 'restrict' }),
+  typeActif: typeActifEnum('type_actif').notNull().default('MATERIEL'),
   modele: text('modele').notNull(),
   numeroSerie: text('numero_serie').notNull().unique(),
+  editeur: text('editeur'),
+  version: text('version'),
   dateInstallation: timestamp('date_installation'),
   siteAdresse: text('site_adresse'),
   statut: statutEquipementEnum('statut').notNull().default('EN_SERVICE'),
@@ -257,6 +272,8 @@ export const tickets = pgTable('tickets', {
   statutActuel: ticketStatutEnum('statut_actuel').notNull().default('CREEE'),
   urgence: urgenceEnum('urgence').notNull().default('NORMALE'),
   adresseSite: text('adresse_site').notNull(),
+  latitudeSite: text('latitude_site'),
+  longitudeSite: text('longitude_site'),
   description: text('description').notNull(),
   dateSouhaitee: timestamp('date_souhaitee'),
   commentaire: text('commentaire'),
@@ -402,14 +419,8 @@ export const alertes = pgTable('alertes', {
 // ==============================================================================
 
 export const usersRelations = relations(users, ({ one }) => ({
-  administrateur: one(administrateurs, {
-    fields: [users.id],
-    references: [administrateurs.userId],
-  }),
-  technicien: one(techniciens, {
-    fields: [users.id],
-    references: [techniciens.userId],
-  }),
+  administrateur: one(administrateurs),
+  technicien: one(techniciens),
 }));
 
 export const administrateursRelations = relations(administrateurs, ({ one, many }) => ({
@@ -423,6 +434,13 @@ export const techniciensRelations = relations(techniciens, ({ one, many }) => ({
   disponibilites: many(disponibilites),
   ticketAssignations: many(ticketTechniciens),
   rapports: many(rapports),
+}));
+
+export const disponibilitesRelations = relations(disponibilites, ({ one }) => ({
+  technicien: one(techniciens, {
+    fields: [disponibilites.technicienId],
+    references: [techniciens.id],
+  }),
 }));
 
 export const competencesRelations = relations(competences, ({ many }) => ({
@@ -460,8 +478,8 @@ export const ticketsRelations = relations(tickets, ({ one, many }) => ({
   techniciens: many(ticketTechniciens),
   statutsHistorique: many(statutsHistorique),
   medias: many(medias),
-  rapport: one(rapports, { fields: [tickets.id], references: [rapports.ticketId] }),
-  signature: one(signatures, { fields: [tickets.id], references: [signatures.ticketId] }),
+  rapport: one(rapports),
+  signature: one(signatures),
   alertes: many(alertes),
 }));
 
@@ -476,6 +494,26 @@ export const ticketTechniciensRelations = relations(ticketTechniciens, ({ one })
 export const rapportsRelations = relations(rapports, ({ one }) => ({
   ticket: one(tickets, { fields: [rapports.ticketId], references: [tickets.id] }),
   technicien: one(techniciens, { fields: [rapports.technicienId], references: [techniciens.id] }),
+}));
+
+export const signaturesRelations = relations(signatures, ({ one }) => ({
+  ticket: one(tickets, { fields: [signatures.ticketId], references: [tickets.id] }),
+}));
+
+export const mediasRelations = relations(medias, ({ one }) => ({
+  ticket: one(tickets, { fields: [medias.ticketId], references: [tickets.id] }),
+}));
+
+export const statutsHistoriqueRelations = relations(statutsHistorique, ({ one }) => ({
+  ticket: one(tickets, { fields: [statutsHistorique.ticketId], references: [tickets.id] }),
+  auteurAdmin: one(administrateurs, {
+    fields: [statutsHistorique.auteurAdminId],
+    references: [administrateurs.id],
+  }),
+  auteurTech: one(techniciens, {
+    fields: [statutsHistorique.auteurTechId],
+    references: [techniciens.id],
+  }),
 }));
 
 export const alertesRelations = relations(alertes, ({ one }) => ({

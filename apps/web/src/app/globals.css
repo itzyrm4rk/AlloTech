@@ -4,40 +4,52 @@
 
 @layer base {
   :root {
-    --background: 45 14% 98%; /* #FAFAF8 */
-    --foreground: 240 2% 17%; /* #2C2C2E */
+    /* Fond minéral reposant et épuré #F8FAFB */
+    --background: 200 20% 98%;
+    /* Texte principal anthracite profond #1A2C31 */
+    --foreground: 194 30% 15%;
 
     --card: 0 0% 100%;
-    --card-foreground: 240 2% 17%;
+    --card-foreground: 194 30% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 240 2% 17%;
+    --popover-foreground: 194 30% 15%;
 
-    --primary: 211 54% 23%; /* #1B3A5C - Bleu profond */
+    /* Primary: Bleu pétrole profond #31525B */
+    --primary: 192 30% 27%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 23 74% 56%; /* #E07A3C - Terracotta */
+    /* Secondary: Ambre solaire #FFA101 */
+    --secondary: 38 100% 50%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 240 5% 96%; /* #F4F4F5 */
-    --muted-foreground: 240 4% 46%;
+    /* Ice accent: #B3DEE5 */
+    --ice: 188 52% 80%;
+    --ice-foreground: 190 42% 15%;
 
-    --accent: 23 74% 56%;
+    /* Sand accent: #FAE6B1 */
+    --sand: 43 89% 84%;
+    --sand-foreground: 43 75% 16%;
+
+    --muted: 192 15% 94%;
+    --muted-foreground: 192 13% 47%;
+
+    --accent: 38 100% 50%;
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 6 60% 46%; /* #C0392B */
+    --destructive: 0 62% 54%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 240 6% 90%;
-    --input: 240 6% 90%;
-    --ring: 211 54% 23%;
+    --border: 195 25% 91%;
+    --input: 195 25% 91%;
+    --ring: 38 100% 50%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
   }
 
   body {
-    background-color: #FAFAF8;
-    color: #2C2C2E;
+    background-color: #F8FAFB;
+    color: #1A2C31;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
   }
 }

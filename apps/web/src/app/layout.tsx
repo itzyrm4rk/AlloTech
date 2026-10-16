@@ -9,9 +9,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'AlloTech — Dashboard Administrateur',
+  title: 'AlloTech',
   description:
-    'Plateforme de gestion des interventions techniques en mobilité pour Douala, Cameroun.',
+    'Plateforme professionnelle de maintenance informatique matérielle et logicielle, gestion de parc CMDB et pilotage des interventions terrain en temps réel.',
 };
 
 export default function RootLayout({

@@ -1,13 +1,16 @@
 import { db, eq } from '@allotech/db';
 import {
+  accounts,
   administrateurs,
   alertes,
   competences,
+  matriculesAutorises,
   technicienCompetences,
   techniciens,
   users,
 } from '@allotech/db/schema';
 import { TRPCError } from '@trpc/server';
+import { hashPassword } from 'better-auth/crypto';
 import { z } from 'zod';
 import { protectedProcedure, publicProcedure, router } from '../trpc';
 
@@ -36,6 +39,7 @@ export const authRouter = router({
     const tech = await db.query.techniciens.findFirst({
       where: eq(techniciens.userId, userId),
       with: {
+        user: true,
         competences: {
           with: {
             competence: true,
@@ -47,7 +51,8 @@ export const authRouter = router({
     return {
       id: userId,
       role: 'TECHNICIEN' as const,
-      matricule: ctx.user.matricule,
+      matricule: tech?.matricule || ctx.user.matricule,
+      email: tech?.user?.email || ctx.user.email,
       technicien: tech || null,
     };
   }),
@@ -56,7 +61,24 @@ export const authRouter = router({
    * Liste des compétences disponibles pour l'auto-déclaration des techniciens
    */
   getCompetences: publicProcedure.query(async () => {
-    const list = await db.select().from(competences);
+    let list = await db.select().from(competences);
+    if (!list || list.length === 0) {
+      const defaultSkills = [
+        'Réseau & Switchs (Cisco, Mikrotik)',
+        'Câblage structuré RJ45 / Baie',
+        'Imprimantes, Traceurs & Copieurs',
+        'Systèmes Windows (Postes & Serveurs)',
+        'Systèmes Linux & Virtualisation',
+        'Sécurité, Pare-feu & Antivirus',
+        'Onduleurs & Alimentation électrique',
+        'Téléphonie VoIP & PABX',
+        'Maintenance Hardware PC / Laptops',
+      ];
+      for (const libelle of defaultSkills) {
+        await db.insert(competences).values({ libelle }).onConflictDoNothing();
+      }
+      list = await db.select().from(competences);
+    }
     return list;
   }),
 
@@ -89,6 +111,26 @@ export const authRouter = router({
   }),
 
   /**
+   * Résout l'adresse email réelle d'un technicien à partir de son matricule ou email
+   */
+  resolveTechnicienEmail: publicProcedure
+    .input(z.object({ identifier: z.string().min(1) }))
+    .query(async ({ input }) => {
+      const clean = input.identifier.trim();
+      if (clean.includes('@')) {
+        return { email: clean.toLowerCase() };
+      }
+      const tech = await db.query.techniciens.findFirst({
+        where: eq(techniciens.matricule, clean.toUpperCase()),
+        with: { user: true },
+      });
+      if (tech?.user?.email) {
+        return { email: tech.user.email.toLowerCase() };
+      }
+      return { email: `${clean.toLowerCase()}@tech.allotech.cm` };
+    }),
+
+  /**
    * Inscription d'un technicien depuis l'application mobile
    * - Matricule unique fourni par l'entreprise
    * - Compétences déclarées
@@ -102,7 +144,7 @@ export const authRouter = router({
         prenom: z.string().min(2, 'Le prénom est requis'),
         nom: z.string().min(2, 'Le nom est requis'),
         telephone: z.string().min(6, 'Le numéro de téléphone est requis'),
-        email: z.string().email().optional().or(z.literal('')),
+        email: z.string().email("L'adresse email est requise et doit être valide"),
         password: z.string().min(6, 'Le mot de passe doit contenir au moins 6 caractères'),
         photoUrl: z.string().url().optional().or(z.literal('')),
         competenceIds: z.array(z.string().uuid()).default([]),
@@ -111,7 +153,26 @@ export const authRouter = router({
     .mutation(async ({ input }) => {
       const matriculeClean = input.matricule.trim().toUpperCase();
 
-      // 1. Vérification de l'unicité du matricule
+      // 0. Vérification règle d'or Sprint 2 : Le matricule doit avoir été pré-enregistré par l'administrateur
+      const autorise = await db.query.matriculesAutorises.findFirst({
+        where: eq(matriculesAutorises.matricule, matriculeClean),
+      });
+
+      if (!autorise) {
+        throw new TRPCError({
+          code: 'FORBIDDEN',
+          message: `Le matricule ${matriculeClean} n'a pas été autorisé par l'administrateur. Veuillez contacter votre responsable AlloTech.`,
+        });
+      }
+
+      if (autorise.isUtilise) {
+        throw new TRPCError({
+          code: 'CONFLICT',
+          message: `Ce matricule ${matriculeClean} a déjà été utilisé pour créer un compte technicien.`,
+        });
+      }
+
+      // 1. Vérification de l'unicité du matricule dans la table techniciens
       const existingTech = await db.query.techniciens.findFirst({
         where: eq(techniciens.matricule, matriculeClean),
       });
@@ -123,11 +184,8 @@ export const authRouter = router({
         });
       }
 
-      // 2. Email technique ou utilisateur
-      const techEmail =
-        input.email && input.email.trim().length > 0
-          ? input.email.trim().toLowerCase()
-          : `${matriculeClean.toLowerCase()}@tech.allotech.cm`;
+      // 2. Email de l'utilisateur
+      const techEmail = input.email.trim().toLowerCase();
 
       // Vérification que l'email n'est pas déjà pris
       const existingUser = await db.query.users.findFirst({
@@ -160,7 +218,19 @@ export const authRouter = router({
         });
       }
 
-      // 4. Création de la fiche technicien (isActif = false par défaut)
+      // 4. Création du compte d'authentification Better Auth (table accounts) avec mot de passe haché
+      const hashedPassword = await hashPassword(input.password);
+      await db.insert(accounts).values({
+        id: crypto.randomUUID(),
+        userId: newUser.id,
+        accountId: newUser.id,
+        providerId: 'credential',
+        password: hashedPassword,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      });
+
+      // 5. Création de la fiche technicien (isActif = false par défaut)
       const [newTechnicien] = await db
         .insert(techniciens)
         .values({
@@ -181,7 +251,7 @@ export const authRouter = router({
         });
       }
 
-      // 5. Enregistrement des compétences déclarées
+      // 6. Enregistrement des compétences déclarées
       if (input.competenceIds.length > 0) {
         const toInsert = input.competenceIds.map((compUniqueId) => ({
           technicienId: newTechnicien.id,
@@ -191,7 +261,13 @@ export const authRouter = router({
         await db.insert(technicienCompetences).values(toInsert);
       }
 
-      // 6. Déclenchement d'une alerte administrateur pour nouvelle inscription
+      // 7. Marquer le matricule autorisé comme utilisé
+      await db
+        .update(matriculesAutorises)
+        .set({ isUtilise: true })
+        .where(eq(matriculesAutorises.matricule, matriculeClean));
+
+      // 8. Déclenchement d'une alerte administrateur pour nouvelle inscription
       await db.insert(alertes).values({
         typeAlerte: 'NOUVELLE_INSCRIPTION',
         message: `Nouveau technicien inscrit : ${input.prenom.trim()} ${input.nom.trim()} (${matriculeClean}). Compte en attente d'activation.`,

@@ -1,5 +1,6 @@
 'use client';
 
+import { AlloTechLogo } from '@/components/AlloTechLogo';
 import {
   AlertCircle,
   ArrowRight,
@@ -9,7 +10,6 @@ import {
   Lock,
   Mail,
   Phone,
-  ShieldCheck,
   User,
 } from 'lucide-react';
 import Link from 'next/link';
@@ -97,41 +97,38 @@ export default function InscriptionAdminPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0F172A] text-slate-100 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-      {/* Halo lumineux d'arrière-plan */}
-      <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full bg-[#1B3A5C]/40 blur-[130px] pointer-events-none" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] rounded-full bg-[#E07A3C]/20 blur-[130px] pointer-events-none" />
+    <div className="min-h-screen bg-[#FAFAF8] text-slate-900 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+      {/* Halos d'ambiance doux */}
+      <div className="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] rounded-full bg-[#B3DEE5]/30 blur-[130px] pointer-events-none" />
+      <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full bg-[#FFA101]/15 blur-[130px] pointer-events-none" />
 
       <div className="sm:mx-auto sm:w-full sm:max-w-md relative z-10">
-        <div className="flex justify-center items-center gap-3 mb-4">
-          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#1B3A5C] to-[#E07A3C] flex items-center justify-center shadow-lg shadow-[#1B3A5C]/40">
-            <ShieldCheck className="w-6 h-6 text-white" />
-          </div>
-          <span className="text-2xl font-bold tracking-tight text-white">
-            Allo<span className="text-[#E07A3C]">Tech</span>
-          </span>
+        <div className="flex justify-center items-center mb-5">
+          <Link href="/" className="flex items-center hover:opacity-90 transition">
+            <AlloTechLogo size={46} showText={true} />
+          </Link>
         </div>
 
-        <h1 className="text-center text-3xl font-extrabold tracking-tight text-white">
+        <h1 className="text-center text-2xl lg:text-3xl font-black tracking-tight text-slate-900">
           Espace Administrateur
         </h1>
-        <p className="mt-2 text-center text-sm text-slate-400">
+        <p className="mt-2 text-center text-xs lg:text-sm text-slate-500 font-medium">
           Créez votre compte pour piloter le parc technique et les interventions
         </p>
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-lg relative z-10">
-        <div className="bg-slate-900/80 backdrop-blur-xl py-8 px-6 sm:px-10 rounded-2xl border border-slate-800 shadow-2xl">
+        <div className="bg-white/95 backdrop-blur-xl py-8 px-6 sm:px-10 rounded-3xl border border-slate-200/90 shadow-xl shadow-slate-200/50">
           {error && (
-            <div className="mb-6 rounded-xl bg-red-950/50 border border-red-800/80 p-4 flex items-start gap-3 text-red-200 text-sm animate-in fade-in">
-              <AlertCircle className="w-5 h-5 text-[#C0392B] flex-shrink-0 mt-0.5" />
+            <div className="mb-6 rounded-2xl bg-red-50 border border-red-200 p-4 flex items-start gap-3 text-red-900 text-xs font-bold animate-in fade-in">
+              <AlertCircle className="w-5 h-5 text-red-600 shrink-0 mt-0.5" />
               <span>{error}</span>
             </div>
           )}
 
           {success && (
-            <div className="mb-6 rounded-xl bg-emerald-950/50 border border-emerald-800/80 p-4 flex items-start gap-3 text-emerald-200 text-sm animate-in fade-in">
-              <CheckCircle2 className="w-5 h-5 text-[#2E8B57] flex-shrink-0 mt-0.5" />
+            <div className="mb-6 rounded-2xl bg-emerald-50 border border-emerald-200 p-4 flex items-start gap-3 text-emerald-900 text-xs font-bold animate-in fade-in">
+              <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
               <span>Compte créé avec succès ! Redirection vers la page de connexion...</span>
             </div>
           )}
@@ -141,7 +138,7 @@ export default function InscriptionAdminPage() {
               <div>
                 <label
                   htmlFor="prenom"
-                  className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5"
+                  className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5"
                 >
                   Prénom
                 </label>
@@ -155,7 +152,7 @@ export default function InscriptionAdminPage() {
                     value={formData.prenom}
                     onChange={handleChange}
                     placeholder="Marc"
-                    className="w-full bg-slate-800/80 border border-slate-700 rounded-xl pl-10 pr-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#E07A3C] focus:border-transparent transition"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-3.5 py-2.5 text-sm font-medium text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#31525B] focus:border-transparent transition"
                   />
                 </div>
               </div>
@@ -163,7 +160,7 @@ export default function InscriptionAdminPage() {
               <div>
                 <label
                   htmlFor="nom"
-                  className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5"
+                  className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5"
                 >
                   Nom
                 </label>
@@ -177,7 +174,7 @@ export default function InscriptionAdminPage() {
                     value={formData.nom}
                     onChange={handleChange}
                     placeholder="Didier"
-                    className="w-full bg-slate-800/80 border border-slate-700 rounded-xl pl-10 pr-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#E07A3C] focus:border-transparent transition"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-3.5 py-2.5 text-sm font-medium text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#31525B] focus:border-transparent transition"
                   />
                 </div>
               </div>
@@ -186,7 +183,7 @@ export default function InscriptionAdminPage() {
             <div>
               <label
                 htmlFor="email"
-                className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5"
+                className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5"
               >
                 Email professionnel
               </label>
@@ -200,7 +197,7 @@ export default function InscriptionAdminPage() {
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="admin@allotech.cm"
-                  className="w-full bg-slate-800/80 border border-slate-700 rounded-xl pl-10 pr-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#E07A3C] focus:border-transparent transition"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-3.5 py-2.5 text-sm font-medium text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#31525B] focus:border-transparent transition"
                 />
               </div>
             </div>
@@ -208,7 +205,7 @@ export default function InscriptionAdminPage() {
             <div>
               <label
                 htmlFor="telephone"
-                className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5"
+                className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5"
               >
                 Numéro de téléphone
               </label>
@@ -222,7 +219,7 @@ export default function InscriptionAdminPage() {
                   value={formData.telephone}
                   onChange={handleChange}
                   placeholder="+237 6XX XX XX XX"
-                  className="w-full bg-slate-800/80 border border-slate-700 rounded-xl pl-10 pr-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#E07A3C] focus:border-transparent transition"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-3.5 py-2.5 text-sm font-medium text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#31525B] focus:border-transparent transition"
                 />
               </div>
             </div>
@@ -231,7 +228,7 @@ export default function InscriptionAdminPage() {
               <div>
                 <label
                   htmlFor="password"
-                  className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5"
+                  className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5"
                 >
                   Mot de passe (8+ car.)
                 </label>
@@ -245,12 +242,12 @@ export default function InscriptionAdminPage() {
                     value={formData.password}
                     onChange={handleChange}
                     placeholder="••••••••"
-                    className="w-full bg-slate-800/80 border border-slate-700 rounded-xl pl-10 pr-10 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#E07A3C] focus:border-transparent transition"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-10 py-2.5 text-sm font-medium text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#31525B] focus:border-transparent transition"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition"
                     aria-label="Afficher ou masquer le mot de passe"
                   >
                     {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -261,9 +258,9 @@ export default function InscriptionAdminPage() {
               <div>
                 <label
                   htmlFor="confirmPassword"
-                  className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5"
+                  className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5"
                 >
-                  Confirmer le mot de passe
+                  Confirmer mot de passe
                 </label>
                 <div className="relative">
                   <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
@@ -275,7 +272,7 @@ export default function InscriptionAdminPage() {
                     value={formData.confirmPassword}
                     onChange={handleChange}
                     placeholder="••••••••"
-                    className="w-full bg-slate-800/80 border border-slate-700 rounded-xl pl-10 pr-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#E07A3C] focus:border-transparent transition"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-3.5 py-2.5 text-sm font-medium text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#31525B] focus:border-transparent transition"
                   />
                 </div>
               </div>
@@ -284,25 +281,25 @@ export default function InscriptionAdminPage() {
             <button
               type="submit"
               disabled={loading || success}
-              className="w-full mt-6 flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-semibold text-white bg-gradient-to-r from-[#1B3A5C] to-[#E07A3C] hover:opacity-95 active:scale-[0.99] focus:outline-none focus:ring-2 focus:ring-[#E07A3C] focus:ring-offset-2 focus:ring-offset-slate-900 transition shadow-lg shadow-[#1B3A5C]/40 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+              className="w-full mt-6 flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-bold text-white bg-[#31525B] hover:bg-[#254148] active:scale-[0.99] focus:outline-none focus:ring-2 focus:ring-[#FFA101] focus:ring-offset-2 transition shadow-lg shadow-[#31525B]/20 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
             >
               {loading ? (
                 <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
               ) : (
                 <>
                   <span>Créer mon compte administrateur</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowRight className="w-4 h-4 text-[#FFA101]" />
                 </>
               )}
             </button>
           </form>
 
-          <div className="mt-6 pt-6 border-t border-slate-800 text-center">
-            <p className="text-sm text-slate-400">
+          <div className="mt-6 pt-6 border-t border-slate-100 text-center">
+            <p className="text-sm text-slate-500 font-medium">
               Vous avez déjà un compte ?{' '}
               <Link
                 href="/connexion"
-                className="font-medium text-[#E07A3C] hover:text-[#e8905a] transition"
+                className="font-bold text-[#31525B] hover:text-[#FFA101] transition"
               >
                 Se connecter
               </Link>

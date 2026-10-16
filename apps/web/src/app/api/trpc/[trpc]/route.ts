@@ -49,6 +49,7 @@ const createContext = async (req: NextRequest): Promise<TRPCContext> => {
           user: {
             id: userId,
             role: 'TECHNICIEN',
+            email: session.user.email,
             matricule: tech.matricule,
             technicienId: tech.id,
             isActif: tech.isActif,
