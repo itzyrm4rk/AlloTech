@@ -5,6 +5,8 @@ node_modules
 # Next.js
 .next/
 out/
+apps/web/AGENTS.md
+apps/web/CLAUDE.md
 
 # Expo / React Native
 .expo/
@@ -15,10 +17,18 @@ out/
 *.mobileprovision
 *.orig.*
 
-# Turborepo
+# Turborepo & Caches
 .turbo
+.cache/
+*.tsbuildinfo
 
-# Environment files
+# Playwright & Testing artifacts
+test-results/
+playwright-report/
+blob-report/
+coverage/
+
+# Environment & Secret files
 .env
 .env.local
 .env.development.local
@@ -28,7 +38,34 @@ out/
 # Output / Build
 dist
 build
-coverage
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Local SQLite databases & journals
+*.sqlite
+*.sqlite-journal
+*.db-journal
+
+# Scratch & Temporary
+scratch/
+scratch_*
+*.tmp
+
+# Vercel deployment cache
+.vercel
+
+# Uploaded User Media (Local fallback - keep only .gitkeep)
+apps/web/public/uploads/*
+!apps/web/public/uploads/.gitkeep
+
+# System & IDE internal logs
+.system_generated/
+.agents/
 
 # Editor & OS
 .DS_Store

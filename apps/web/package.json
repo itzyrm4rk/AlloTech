@@ -3,32 +3,43 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --port 3000",
+    "dev": "next dev -H 0.0.0.0 --port 3000",
     "build": "next build",
     "start": "next start",
-    "check-types": "tsc --noEmit"
+    "check-types": "tsc --noEmit",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
-    "@allotech/config": "workspace:*",
-    "@allotech/ui": "workspace:*",
     "@allotech/api": "workspace:*",
     "@allotech/auth": "workspace:*",
+    "@allotech/config": "workspace:*",
     "@allotech/db": "workspace:*",
+    "@allotech/ui": "workspace:*",
+    "@aws-sdk/client-s3": "^3.1134.0",
+    "@aws-sdk/s3-request-presigner": "^3.1134.0",
+    "@react-pdf/renderer": "^4.9.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "exceljs": "^4.4.0",
+    "lucide-react": "^1.16.0",
+    "maplibre-gl": "^6.10.0",
     "next": "^16.3.5",
+    "nodemailer": "^10.0.10",
+    "qrcode": "^1.5.4",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
-    "clsx": "^2.1.1",
-    "tailwind-merge": "^3.0.2",
-    "lucide-react": "^1.16.0",
-    "class-variance-authority": "^0.7.1"
+    "tailwind-merge": "^3.0.2"
   },
   "devDependencies": {
+    "@playwright/test": "^1.63.0",
     "@types/node": "^22.13.9",
+    "@types/nodemailer": "^8.0.2",
+    "@types/qrcode": "^1.5.6",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
-    "tailwindcss": "^3.4.17",
-    "postcss": "^8.5.3",
     "autoprefixer": "^10.4.20",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^3.4.17",
     "typescript": "^5.7.3"
   }
 }

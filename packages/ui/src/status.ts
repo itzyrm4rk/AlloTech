@@ -2,7 +2,6 @@ import { allotechColors } from '@allotech/config';
 
 /**
  * Cycle de vie officiel d'un ticket AlloTech
- * Source : antigravity-01-contexte-fonctionnalites.md
  */
 export const TICKET_STATUSES = [
   'CREEE',
@@ -33,32 +32,32 @@ export const TICKET_STATUS_MAP: Record<TicketStatus, StatusMeta> = {
   },
   ASSIGNEE: {
     label: 'Assignée',
-    badgeBg: '#E3F2FD',
+    badgeBg: allotechColors.ice.subtle,
     badgeText: allotechColors.primary.DEFAULT,
     description: 'Technicien(s) assigné(s) manuellement par l’administrateur',
   },
   EN_ROUTE: {
     label: 'En route',
-    badgeBg: '#FFF3E0',
-    badgeText: allotechColors.secondary.DEFAULT,
+    badgeBg: allotechColors.secondary.light,
+    badgeText: allotechColors.secondary.hover,
     description: 'Technicien en déplacement vers le site d’intervention',
   },
   EN_COURS: {
     label: 'En cours',
-    badgeBg: '#E0F2FE',
-    badgeText: '#0369A1',
+    badgeBg: allotechColors.primary.light,
+    badgeText: allotechColors.primary.DEFAULT,
     description: 'Intervention démarrée sur site (heure et GPS enregistrés)',
   },
   EN_PAUSE: {
     label: 'En pause',
-    badgeBg: allotechColors.warning.light,
-    badgeText: '#B45309',
+    badgeBg: allotechColors.sand.light,
+    badgeText: allotechColors.sand.dark,
     description: 'Intervention suspendue temporairement (attente pièce, fin de journée)',
   },
   TERMINEE: {
     label: 'Terminée',
-    badgeBg: '#ECFDF5',
-    badgeText: '#047857',
+    badgeBg: allotechColors.success.light,
+    badgeText: allotechColors.success.DEFAULT,
     description: 'Travail terminé, rapport et signature client recueillis',
   },
   CLOTUREE: {
@@ -91,16 +90,16 @@ export const URGENCY_MAP: Record<UrgencyLevel, { label: string; color: string; b
     HAUTE: {
       label: 'Haute',
       color: allotechColors.secondary.DEFAULT,
-      badgeBg: '#FFF3E0',
+      badgeBg: allotechColors.secondary.light,
     },
     NORMALE: {
       label: 'Normale',
       color: allotechColors.primary.DEFAULT,
-      badgeBg: '#E0F2FE',
+      badgeBg: allotechColors.ice.subtle,
     },
     BASSE: {
       label: 'Basse',
-      color: '#6B7280',
+      color: allotechColors.neutral.medium,
       badgeBg: allotechColors.neutral.light,
     },
   };

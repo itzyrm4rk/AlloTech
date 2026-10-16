@@ -1,0 +1,9 @@
+node_modules
+.next
+.turbo
+.git
+apps/mobile
+apps/web/.next
+coverage
+dist
+*.log

@@ -1,0 +1,51 @@
+services:
+  # Base de données PostgreSQL locale (alternative optionnelle à Neon Serverless)
+  postgres:
+    image: postgres:16-alpine
+    container_name: allotech-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespassword
+      POSTGRES_DB: allotech
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Dashboard Web Administrateur AlloTech (Next.js 16)
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    container_name: allotech-web
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:postgrespassword@postgres:5432/allotech}
+      BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET:-allotech-production-secret-key-32chars}
+      BETTER_AUTH_URL: ${BETTER_AUTH_URL:-http://localhost:3000}
+      NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL:-http://localhost:3000}
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      # Stockage Cloud Backblaze B2 (Optionnel - fallback local dans /public/uploads)
+      B2_KEY_ID: ${B2_KEY_ID:-}
+      B2_APP_KEY: ${B2_APP_KEY:-}
+      B2_BUCKET_NAME: ${B2_BUCKET_NAME:-allotech-medias-prod}
+      B2_ENDPOINT: ${B2_ENDPOINT:-https://s3.us-east-005.backblazeb2.com}
+      B2_REGION: ${B2_REGION:-us-east-005}
+    volumes:
+      - uploads_data:/app/apps/web/public/uploads
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
+  uploads_data:

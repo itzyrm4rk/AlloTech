@@ -1,48 +1,75 @@
 /**
  * AlloTech — Tokens officiels de couleur du Design System
- * Source de vérité : antigravity-04-regles-dor.md
- * Ces valeurs doivent être utilisées partout sans improvisation.
  */
 
 export const allotechColors = {
-  // Couleurs principales
+  // 1. Couleurs de marque principales
   primary: {
-    DEFAULT: '#1B3A5C', // Bleu profond : en-têtes, navigation, boutons principaux
-    hover: '#142c46',
+    DEFAULT: '#31525B',
+    hover: '#264047',
+    light: '#EAF2F4',
+    surface: '#1A2C31',
     foreground: '#FFFFFF',
   },
   secondary: {
-    DEFAULT: '#E07A3C', // Orange terracotta : boutons d'action, accents
-    hover: '#cf6b2f',
+    DEFAULT: '#FFA101',
+    hover: '#E69000',
+    light: '#FFF6E5',
     foreground: '#FFFFFF',
   },
-  // Statuts universels
+  ice: {
+    DEFAULT: '#B3DEE5',
+    subtle: '#F0F8FA',
+    border: '#98CED7',
+    dark: '#457C87',
+    foreground: '#163137',
+  },
+  sand: {
+    DEFAULT: '#FAE6B1',
+    light: '#FDF8EB',
+    border: '#EED28B',
+    dark: '#8C6C1B',
+    foreground: '#47360A',
+  },
+
+  // 2. Statuts universels (SLA, tickets, alertes)
   success: {
-    DEFAULT: '#2E8B57', // Vert : intervention clôturée, SLA respecté
+    DEFAULT: '#288358',
+    light: '#E8F6EF',
     foreground: '#FFFFFF',
-    light: '#E8F5E9',
   },
   warning: {
-    DEFAULT: '#E0A83C', // Jaune/ambre : intervention en pause, alerte SLA prédictive
+    DEFAULT: '#FFA101',
+    light: '#FFF6E5',
     foreground: '#FFFFFF',
-    light: '#FFF8E1',
   },
   danger: {
-    DEFAULT: '#C0392B', // Rouge : urgence critique, SLA dépassé
+    DEFAULT: '#D14343',
+    light: '#FEECEC',
     foreground: '#FFFFFF',
-    light: '#FFEBEE',
   },
-  // Neutres & Fonds
+
+  // 3. Neutres & Surfaces épurées (Light & Dark)
   neutral: {
-    dark: '#2C2C2E', // Gris anthracite : texte principal
-    light: '#F4F4F5', // Gris clair : fonds, cartes, séparateurs
+    dark: '#1A2C31',
+    medium: '#688188',
+    light: '#EFF4F6',
   },
   background: {
-    DEFAULT: '#FAFAF8', // Blanc cassé : fond général
+    DEFAULT: '#F8FAFB',
     card: '#FFFFFF',
-    muted: '#F4F4F5',
+    subtle: '#F0F4F6',
+    muted: '#EBF1F3',
   },
-  border: '#E4E4E7',
+  dark: {
+    bg: '#0E1A1D',
+    card: '#16272C',
+    border: '#233F47',
+    hover: '#2A4B54',
+    text: '#F1F7F8',
+    muted: '#8BA6AD',
+  },
+  border: '#E2ECF0',
 } as const;
 
 export type AlloTechColors = typeof allotechColors;

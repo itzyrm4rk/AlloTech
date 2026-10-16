@@ -5,14 +5,28 @@
   "exports": {
     ".": "./src/index.ts",
     "./router": "./src/root.ts",
-    "./trpc": "./src/trpc.ts"
+    "./trpc": "./src/trpc.ts",
+    "./lib/sla": "./src/lib/sla.ts",
+    "./lib/mttr": "./src/lib/mttr.ts",
+    "./services/cmdb-provisioning": "./src/services/cmdb-provisioning.service.ts"
+  },
+  "scripts": {
+    "test:sprint1": "tsx --env-file=../../.env src/test-sprint1.ts",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@allotech/db": "workspace:*",
+    "@aws-sdk/client-s3": "^3.1134.0",
+    "@aws-sdk/s3-request-presigner": "^3.1134.0",
     "@trpc/server": "^10.45.2",
+    "better-auth": "^1.2.9",
+    "drizzle-orm": "^0.39.3",
     "zod": "^3.24.2"
   },
   "devDependencies": {
-    "typescript": "^5.7.3"
+    "tsx": "^4.19.3",
+    "typescript": "^5.7.3",
+    "vitest": "^2.1.9"
   }
 }

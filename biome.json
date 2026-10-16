@@ -16,7 +16,8 @@
       "**/dist/**",
       "**/build/**",
       "**/next-env.d.ts",
-      "**/.vscode/**"
+      "**/.vscode/**",
+      "**/drizzle/**"
     ]
   },
   "formatter": {
@@ -35,6 +36,10 @@
       "correctness": {
         "noUnusedVariables": "warn",
         "noUnusedImports": "warn"
+      },
+      "a11y": {
+        "useButtonType": "warn",
+        "noLabelWithoutControl": "warn"
       }
     }
   },
