@@ -5,24 +5,6 @@
   "buildCommand": "pnpm --filter web build",
   "outputDirectory": "apps/web/.next",
   "regions": ["cdg1"],
-  "env": {
-    "NODE_ENV": "production"
-  },
-  "functions": {
-    "apps/web/src/app/api/**": {
-      "maxDuration": 30
-    },
-    "apps/web/src/app/api/statistiques/excel/**": {
-      "maxDuration": 60,
-      "memory": 512
-    },
-    "apps/web/src/app/api/statistiques/pdf/**": {
-      "maxDuration": 30
-    },
-    "apps/web/src/app/api/tickets/[id]/pdf/**": {
-      "maxDuration": 30
-    }
-  },
   "headers": [
     {
       "source": "/api/(.*)",
