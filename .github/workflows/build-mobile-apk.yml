@@ -19,6 +19,9 @@ jobs:
   build-apk:
     name: Build Android APK
     runs-on: ubuntu-latest
+    env:
+      ANDROID_HOME: /usr/local/lib/android/sdk
+      ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
 
     steps:
       - name: 1. Checkout repository
@@ -32,8 +35,9 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: 3. Setup Android SDK
-        uses: android-actions/setup-android@v3
+      - name: 3. Accept Android SDK Licenses
+        run: |
+          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
 
       - name: 4. Setup pnpm
         uses: pnpm/action-setup@v4
