@@ -7,6 +7,8 @@
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
       "backgroundColor": "#31525B"
     },
     "assetBundlePatterns": ["**/*"],
@@ -15,10 +17,46 @@
     },
     "android": {
       "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#31525B"
       },
-      "package": "com.allotech.mobile"
+      "package": "com.allotech.mobile",
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.USE_BIOMETRIC",
+        "android.permission.USE_FINGERPRINT",
+        "android.permission.VIBRATE",
+        "android.permission.POST_NOTIFICATIONS"
+      ]
     },
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Autoriser AlloTech à accéder à la caméra pour scanner les QR codes et prendre des photos d'intervention."
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Autoriser AlloTech à accéder à votre position pour localiser vos interventions."
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Autoriser AlloTech à accéder à vos photos pour joindre des preuves d'intervention."
+        }
+      ],
+      [
+        "expo-local-authentication",
+        {
+          "faceIDPermission": "Autoriser AlloTech à utiliser l'authentification biométrique."
+        }
+      ]
+    ],
     "web": {
       "favicon": "./assets/favicon.png"
     }

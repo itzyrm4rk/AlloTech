@@ -8,6 +8,10 @@ export const getBaseUrl = () => {
   if (process.env.EXPO_PUBLIC_API_URL) {
     return process.env.EXPO_PUBLIC_API_URL.replace(/\/$/, '');
   }
+  // En production autonome (APK Release installé sur téléphone), pointer sur l'API en ligne
+  if (!__DEV__) {
+    return 'https://allo-tech.vercel.app';
+  }
   const hostUri = Constants.expoConfig?.hostUri;
   if (hostUri) {
     const localhost = hostUri.split(':')[0];
