@@ -60,9 +60,9 @@ jobs:
       - name: 8. Setup Build Permissions
         run: chmod +x apps/mobile/android/gradlew
 
-      - name: 9. Build Android APK with Gradle
+      - name: 9. Build Android APK with Gradle (Standalone Release)
         working-directory: apps/mobile/android
-        run: ./gradlew assembleDebug --no-daemon
+        run: ./gradlew assembleRelease --no-daemon
 
       - name: 10. Prepare APK Asset for Release
         run: |
